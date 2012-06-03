@@ -17,19 +17,28 @@ def data_provider(fn_data_provider):
 
 
 class VendorMachine(object):
+    available_money = (10, 50, 100, 500, 1000)
+
     def __init__(self):
         self.money = 0
         pass
 
     def add_coin(self, coin):
-        if coin == 30:
+        if coin not in self.available_money:
             return coin
-
 
         self.money += coin
 
     def show_price(self):
         return self.money
+
+    def payback(self):
+        payback = self.money
+        self.money = 0
+
+        return payback
+
+
 
 
 class TDDBCTest(TestCase):
@@ -50,18 +59,12 @@ class TDDBCTest(TestCase):
         for m in self.money:
             self.assertEqual(self.vm.add_coin(m), None)
 
-
-
-
-
-
+    fetal_money = (1, 5, 10000)
 
     def test_add_error(self):
-        """ ３０円玉を投入すると金額が返ってくる """
-        self.assertEqual(self.vm.add_coin(30), 30)
-
-
-
+        """ １円玉５円玉１万円を投入すると金額が返ってくる """
+        for m in self.fetal_money:
+            self.assertEqual(self.vm.add_coin(m), m)
 
     def test_add(self):
         """ 投入金額の総計を取得できる """
@@ -69,11 +72,12 @@ class TDDBCTest(TestCase):
         self.vm.add_coin(50)
         self.assertEqual(self.vm.show_price(), 60)
 
-    def test_add_2(self):
-        """ 投入金額の総計を取得できる """
+    def test_payback(self):
+        """ 払い戻しを行うと総計が返ってくる """
         self.vm.add_coin(10)
-        self.vm.add_coin(10)
-        self.assertEqual(self.vm.show_price(), 20)
+        self.vm.add_coin(500)
+        self.assertEqual(self.vm.payback(), 510)
+        self.assertEqual(self.vm.money, 0)
 
 
 
