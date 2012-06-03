@@ -15,12 +15,23 @@ def data_provider(fn_data_provider):
         return repl
     return test_decorator
 
+class Store(object):
+
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+
 
 class VendorMachine(object):
     available_money = (10, 50, 100, 500, 1000)
 
-    def __init__(self):
+    def __init__(self, number=5):
         self.money = 0
+        self.products = {}
+
+        for i in range(number):
+            self.store(Store('cola', 120))
 
     def add_coin(self, coin):
         if coin not in self.available_money:
@@ -36,6 +47,19 @@ class VendorMachine(object):
         self.money = 0
 
         return payback
+
+    def store(self, drink):
+        amount = 0
+        if drink.name in self.products:
+            amount += self.products[drink.name]['ammount']
+
+        self.products.update({drink.name: {'price': drink.price, 'ammount': amount + 1}})
+
+    def get_price(self, name):
+        return self.products[name]['price']
+
+    def get_ammount(self, name):
+        return self.products[name]['ammount']
 
 
 
@@ -76,6 +100,21 @@ class TDDBCTest(TestCase):
         self.assertEqual(self.vm.payback(), 510)
         self.assertEqual(self.vm.money, 0)
 
+    def test_store(self):
+        """ 名前と金額をセットする """
+        store = Store('cola', 120)
+        self.assertEqual(store.name,'cola')
+        self.assertEqual(store.price, 120)
 
+    def test_can_store_drink(self):
+        """ ジュースを格納できる """
+        expected = 120
+        drink = Store('cola', expected)
+        self.vm.store(drink)
+        self.assertEqual(self.vm.get_price(drink.name), expected)
+
+    def test_init_store(self):
+        """ 初期状態でコーラを５本格納している """
+        self.assertEqual(self.vm.get_ammount('cola'), 5)
 
 
