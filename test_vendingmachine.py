@@ -21,7 +21,6 @@ class VendorMachine(object):
 
     def __init__(self):
         self.money = 0
-        pass
 
     def add_coin(self, coin):
         if coin not in self.available_money:
@@ -44,10 +43,9 @@ class VendorMachine(object):
 class TDDBCTest(TestCase):
     def setUp(self):
         self.vm = VendorMachine()
-
+        self.money = self.vm.available_money
 
    # money = lambda: (10, 50, 100, 500, 1000)
-    money = (10, 50, 100, 500, 1000)
 
    # @data_provider(money)
    # def test_foobar(self, money):
@@ -59,11 +57,10 @@ class TDDBCTest(TestCase):
         for m in self.money:
             self.assertEqual(self.vm.add_coin(m), None)
 
-    fetal_money = (1, 5, 10000)
-
     def test_add_error(self):
         """ １円玉５円玉１万円を投入すると金額が返ってくる """
-        for m in self.fetal_money:
+        fetal_money = (1, 5, 10000)
+        for m in fetal_money:
             self.assertEqual(self.vm.add_coin(m), m)
 
     def test_add(self):
