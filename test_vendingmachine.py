@@ -14,7 +14,6 @@ def paramterized(**kwargs):
 
 
 class Drink(object):
-
     def __init__(self, name, price):
         self.name = name
         self.price = price
@@ -63,7 +62,7 @@ class VendorMachine(object):
         return self.products[name]['amount']
 
 
-class TDDBCTest(TestCase):
+class TestVendingMachine(TestCase):
     def setUp(self):
         self.vm = VendorMachine()
         self.money = self.vm.available_money
