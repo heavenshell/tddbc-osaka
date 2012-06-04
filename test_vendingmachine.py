@@ -90,7 +90,7 @@ class TestVendingMachine(TestCase):
     @paramterized(param=5, expected=5)
     @paramterized(param=10000, expected=10000)
     def test_paramterized_error(self, params):
-        """ １円玉５円玉１万円を投入すると金額が返ってくる """
+        """ 1円玉5円玉1万円を投入すると金額が返ってくる """
         self.assertEqual(self.vm.add_coin(params['param']), params['expected'])
 
     def test_show_total_price(self):
@@ -120,7 +120,7 @@ class TestVendingMachine(TestCase):
         self.assertEqual(self.vm.get_price(drink.name), expected)
 
     def test_init_store(self):
-        """ 初期状態でコーラを５本格納している """
+        """ 初期状態でコーラを5本格納している """
         expected = self.vm.default_amount
         self.assertEqual(self.vm.get_amount('cola'), expected)
 
