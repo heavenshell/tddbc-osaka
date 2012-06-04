@@ -1,4 +1,14 @@
 # -*- coding: utf-8 -*-
+"""
+    TDD Bootcamp Osaka
+    ~~~~~~~~~~~~~~~~~~
+
+    Python unittest.
+
+
+    :copyright: (c) 2012 Shinya Ohyanagi, All rights reserved.
+    :license: BSD, see LICENSE for more details.
+"""
 from unittest import TestCase
 from functools import wraps
 
